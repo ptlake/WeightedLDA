@@ -58,7 +58,7 @@ class WeightedLDA(ClassifierMixin, TransformerMixin, BaseEstimator):
             hw[y == c] = np.sqrt(wgts[y == c, None]) * (X[y == c] - self.means_[i])
 
         u, s, v = np.linalg.svd(hw, full_matrices=False)
-        rank = np.sum((s/n_samples**0.5 > self.tol).astype(np.int32))
+        rank = np.sum((s/wgt_sum**0.5 > self.tol).astype(np.int32))
         v = var_norm * v[:rank] / s[:rank, None]
 
         x = np.dot(v, hb.T)
